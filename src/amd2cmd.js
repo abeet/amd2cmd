@@ -2,6 +2,7 @@
 
 import vfs from 'vinyl-fs';
 import map from 'map-stream';
+import { Buffer } from 'buffer';
 import _ from 'lodash';
 import { join, relative, dirname, isAbsolute } from 'path';
 import { existsSync, statSync } from 'fs';
@@ -46,10 +47,14 @@ function generateCodeTransformFn(basedir) {
   return (file, cb) => {
     const modulePathTransformer = new ModulePathTransform(dirname(file.path), basedir || file.base);
     const modulePathTransformFn = (modulePath) => modulePathTransformer.transform(modulePath);
-    /* eslint no-param-reassign:0 */
-    file.contents = Buffer.from(new AMD2CMDTransformer(file.contents.toString('utf-8'),
-      modulePathTransformFn).transform(), 'utf-8');
-    cb(null, file);
+    if (file.isBuffer()) {
+      /* eslint no-param-reassign:0 */
+      file.contents = Buffer.from(new AMD2CMDTransformer(file.contents.toString('utf-8'),
+        modulePathTransformFn).transform(), 'utf-8');
+      cb(null, file);
+    } else if (file.isStream()) {
+      cb(new Error('amd2cmd: Streams not support.'), file);
+    }
   };
 }
 
@@ -73,6 +78,34 @@ export function formatFilePathToGlob(filepath) {
 }
 
 /**
+ * transform amd code to commonjs code
+ *
+ * @export
+ * @param {String} code the amd code
+ * @param {String} filepath the file path of amd module
+ * @param {String} basedir the base dir of amd modules
+ *
+ * @returns {String} return commonjs code
+ */
+export function transformCode(code, filepath, basedir) {
+  const modulePathTransformer = new ModulePathTransform(filepath, basedir);
+  const modulePathTransformFn = (modulePath) => modulePathTransformer.transform(modulePath);
+  return new AMD2CMDTransformer(code, modulePathTransformFn).transform();
+}
+
+/**
+ * transform amd code to cmd, and this method is used in gulp.
+ *
+ * @export
+ * @param {String} basedir
+ * @returns {Stream} returns transform stream.
+ */
+export function transform(basedir) {
+  const mapFn = generateCodeTransformFn(formatFilePath(basedir));
+  return map(mapFn);
+}
+
+/**
  * transform amd code to cmd code
  *
  * @export
@@ -81,8 +114,7 @@ export function formatFilePathToGlob(filepath) {
  * @param {String?} basedir amd module base dir. If relative path, will join with `process.cwd()`, or if null, will reguest basedir from inFiles, visit https://github.com/gulpjs/vinyl#optionsbase
  */
 export default function amd2cmd(inFiles, outDir, basedir) {
-  const mapFn = generateCodeTransformFn(formatFilePath(basedir));
   return vfs.src(_.map(inFiles, formatFilePathToGlob), { buffer: true })
-   .pipe(map(mapFn))
+   .pipe(transform(basedir))
    .pipe(vfs.dest(outDir));
 }

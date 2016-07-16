@@ -67,6 +67,35 @@ transform(['src/scripts/**/*.js'], 'build/scripts', 'src/scripts')
 });
 ```
 
+or like this:
+
+```js
+import { transformCode } from 'amd2cmd';
+
+const cmdCode = transformCode(`define(['dep1', 'dep2'], function(dep1, dep2OtherName) {
+  return dep1 + dep2OtherName;
+});`, 'file path', 'base path');
+
+console.log(cmdCode);
+/* print:
+var dep1 = require('dep1');
+var dep2OtherName = require('dep2');
+module.exports = dep1 + dep2OtherName;
+*/
+```
+
+### use with gulp
+
+```js
+import { transform } from 'amd2cmd';
+
+gulp.src('app/**/*.js')
+.pipe(transform({
+  basedir: 'app'
+}))
+.pipe(gulp.dest('build/scripts'));
+```
+
 ## scripts
 
 Build the project shell:

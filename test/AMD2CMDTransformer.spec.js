@@ -5,7 +5,8 @@ import { expect } from 'chai';
 import AMD2CMDTransformer from '../src/AMD2CMDTransformer';
 
 const amdCode = readFileSync(join(__dirname, './code/amdcode.js'), 'utf-8');
-const simpleAmdCode = readFileSync(join(__dirname, './code/simpleamdcode.js'), 'utf-8');
+const amdCode2 = readFileSync(join(__dirname, './code/amdCode2.js'), 'utf-8');
+const amdCode3 = readFileSync(join(__dirname, './code/amdCode3.js'), 'utf-8');
 const cmdCode = readFileSync(join(__dirname, './code/cmdcode.js'), 'utf-8');
 
 describe('AMD2CMDFormat', () => {
@@ -25,7 +26,12 @@ describe('AMD2CMDFormat', () => {
   });
 
   it('format require', () => {
-    const actual = new AMD2CMDTransformer(simpleAmdCode, moduleNameTransform).transform();
+    const actual = new AMD2CMDTransformer(amdCode2, moduleNameTransform).transform();
+    expect(actual).to.eql(cmdCode);
+  });
+
+  it('format with defined module name', () => {
+    const actual = new AMD2CMDTransformer(amdCode3, moduleNameTransform).transform();
     expect(actual).to.eql(cmdCode);
   });
 });
