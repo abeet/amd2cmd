@@ -106,8 +106,8 @@ export default class AMD2CMDTransformer {
 
     return result.toString()
       .replace(this.indentType === 'TAB' ? TAB_START_REGEXP : TWO_BLANK_START_REGEXP, '')
-      .replace(/^\n/, '')
-      .replace(/\n$/, '')
+      .replace(/^\r?\n/, '')
+      .replace(/\r?\n$/, '')
       .replace(REQUIRE_EXPRESSION_REGEXP,
         (match, moduleName) => `require('${this.moduleNameTransform(moduleName)}')`);
   }
