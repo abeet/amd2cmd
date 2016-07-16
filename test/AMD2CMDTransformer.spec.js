@@ -5,8 +5,8 @@ import { expect } from 'chai';
 import AMD2CMDTransformer from '../src/AMD2CMDTransformer';
 
 const amdCode = readFileSync(join(__dirname, './code/amdcode.js'), 'utf-8');
-const amdCode2 = readFileSync(join(__dirname, './code/amdCode2.js'), 'utf-8');
-const amdCode3 = readFileSync(join(__dirname, './code/amdCode3.js'), 'utf-8');
+const amdCode2 = readFileSync(join(__dirname, './code/amdcode2.js'), 'utf-8');
+const amdCode3 = readFileSync(join(__dirname, './code/amdcode3.js'), 'utf-8');
 const cmdCode = readFileSync(join(__dirname, './code/cmdcode.js'), 'utf-8');
 
 describe('AMD2CMDFormat', () => {
