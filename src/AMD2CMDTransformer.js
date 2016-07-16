@@ -56,7 +56,8 @@ export default class AMD2CMDTransformer {
    * @returns
    */
   handleDefineExpression(defineExp) {
-    const dependencyExps = defineExp.arguments.length === 2 ? defineExp.arguments[0] : null;
+    const dependencyExps = defineExp.arguments.length > 1 ?
+      defineExp.arguments[defineExp.arguments.length - 2] : null;
     const fnExp = defineExp.arguments[defineExp.arguments.length - 1];
     let content = '';
     if (dependencyExps) {
