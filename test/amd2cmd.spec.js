@@ -1,8 +1,8 @@
-import amd2cmd, { ModulePathTransform, formatFilePath, formatFilePathToGlob } from '../src/amd2cmd';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { join } from 'path';
 import { readFileSync } from 'fs';
+import amd2cmd, { ModulePathTransform, formatFilePath, formatFilePathToGlob } from '../src/amd2cmd';
 
 describe('amd2cmd', () => {
   it('transform module path', () => {

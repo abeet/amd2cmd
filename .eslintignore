@@ -4,3 +4,5 @@ build
 reports
 coverage
 esdoc
+test/code
+bin

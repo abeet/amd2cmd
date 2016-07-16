@@ -1,9 +1,11 @@
+'use strict';
+
 import vfs from 'vinyl-fs';
 import map from 'map-stream';
+import _ from 'lodash';
 import { join, relative, dirname, isAbsolute } from 'path';
 import { existsSync, statSync } from 'fs';
 import AMD2CMDTransformer from './AMD2CMDTransformer';
-import _ from 'lodash';
 
 export class ModulePathTransform {
   /**

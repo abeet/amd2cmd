@@ -1,6 +1,6 @@
-import StringEditor from '../src/StringEditor';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import StringEditor from '../src/StringEditor';
 
 describe('StringEditor', () => {
   const content = '0123456789ABCDEF';
