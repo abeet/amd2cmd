@@ -3,7 +3,7 @@ import { filter, map } from 'lodash';
 import StringEditor from './StringEditor';
 
 const REQUIRE_EXPRESSION_REGEXP = /require[\s\n\r]*\([\s\n\r]*['"](.+?)['"][\s\n\r]*\)/g;
-const TWO_BLACK_START_REGEXP = /^ {2}/gm;
+const TWO_BLANK_START_REGEXP = /^ {2}/gm;
 const TAB_START_REGEXP = /^\t/gm;
 
 export default class AMD2CMDTransformer {
@@ -11,7 +11,7 @@ export default class AMD2CMDTransformer {
     this.content = content;
     this.moduleNameTransform = moduleNameTransform || (moduleName => moduleName);
     this.result = new StringEditor(this.content);
-    this.indentType = this.content.indexOf('\t') >= 0 ? 'TAB' : 'BLACK';
+    this.indentType = this.content.indexOf('\t') >= 0 ? 'TAB' : 'BLANK';
   }
 
   transform() {
@@ -105,7 +105,7 @@ export default class AMD2CMDTransformer {
     }
 
     return result.toString()
-      .replace(this.indentType === 'TAB' ? TAB_START_REGEXP : TWO_BLACK_START_REGEXP, '')
+      .replace(this.indentType === 'TAB' ? TAB_START_REGEXP : TWO_BLANK_START_REGEXP, '')
       .replace(/^\n/, '')
       .replace(/\n$/, '')
       .replace(REQUIRE_EXPRESSION_REGEXP,
