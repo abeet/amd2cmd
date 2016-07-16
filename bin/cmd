@@ -3,7 +3,7 @@
 
 var program = require('commander');
 var version = require('../package.json').version;
-var amd2cmd = require('../');
+var amd2cmd = require('../').amd2cmd;
 var path = require('path');
 
 program

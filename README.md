@@ -59,9 +59,9 @@ First, install amd2cmd:
 Then, you can use amd2cmd like this:
 
 ```js
-import transform from 'amd2cmd';
+import { amd2cmd } from 'amd2cmd';
 
-transform(['src/scripts/**/*.js'], 'build/scripts', 'src/scripts')
+amd2cmd(['src/scripts/**/*.js'], 'build/scripts', 'src/scripts')
 .on('finish', function() {
   console.log('finish to transform amd code to cmd code');
 });
