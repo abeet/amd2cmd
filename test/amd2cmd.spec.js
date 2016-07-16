@@ -4,12 +4,13 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import del from 'del';
 import vfs from 'vinyl-fs';
-import amd2cmd, {
+import {
   ModulePathTransform,
   formatFilePath,
   formatFilePathToGlob,
   transformCode,
   transform,
+  amd2cmd,
 } from '../src/amd2cmd';
 
 

@@ -113,7 +113,7 @@ export function transform(basedir) {
  * @param {String} outDir target directory
  * @param {String?} basedir amd module base dir. If relative path, will join with `process.cwd()`, or if null, will reguest basedir from inFiles, visit https://github.com/gulpjs/vinyl#optionsbase
  */
-export default function amd2cmd(inFiles, outDir, basedir) {
+export function amd2cmd(inFiles, outDir, basedir) {
   return vfs.src(_.map(inFiles, formatFilePathToGlob), { buffer: true })
    .pipe(transform(basedir))
    .pipe(vfs.dest(outDir));
