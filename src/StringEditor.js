@@ -16,7 +16,7 @@ export default class StringEditor {
     this.content = content;
     this.start = start || 0;
     this.end = end || content.length;
-    this.actions = [];
+    this.replaceActions = [];
   }
 
   /**
@@ -27,8 +27,7 @@ export default class StringEditor {
    * @param {String|StringEditor} newContent
    */
   replace(begin, end, newContent) {
-    this.actions.push({
-      type: StringEditor.ACTION_REPLACE,
+    this.replaceActions.push({
       range: [begin, end],
       newContent,
     });
@@ -43,17 +42,13 @@ export default class StringEditor {
     let value = '';
     let start = this.start;
 
-    for (const action of this.actions) {
-      if (action.type === StringEditor.ACTION_REPLACE) {
-        value += this.content.substring(start, action.range[0]);
-        value += action.newContent.toString();
-        start = action.range[1];
-      }
+    for (const action of this.replaceActions) {
+      value += this.content.substring(start, action.range[0]);
+      value += action.newContent.toString();
+      start = action.range[1];
     }
 
     value += this.content.substring(start, this.end);
     return value;
   }
 }
-
-StringEditor.ACTION_REPLACE = 'replace';
