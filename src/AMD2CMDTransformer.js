@@ -63,7 +63,11 @@ export default class AMD2CMDTransformer {
     if (dependencyExps) {
       content += this.handleDependencyModules(dependencyExps, fnExp);
     }
-    content += this.handleDefineFnExpression(fnExp);
+    if (fnExp.type === 'FunctionExpression') {
+      content += this.handleDefineFnExpression(fnExp);
+    } else {
+      content += `module.exports = ${this.content.substring(fnExp.start, fnExp.end)};`;
+    }
     return content;
   }
 
