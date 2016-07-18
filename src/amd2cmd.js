@@ -35,7 +35,7 @@ export class ModulePathTransform {
       }
       return modulePath;
     }
-    const result = relative(this.filepath, join(this.basedir, modulePath));
+    const result = relative(this.filepath, join(this.basedir, modulePath)).replace(/\\+/g, '/');
     if (!result.startsWith('.')) {
       return `./${result}`;
     }

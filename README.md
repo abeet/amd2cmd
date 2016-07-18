@@ -101,25 +101,25 @@ gulp.src('app/**/*.js')
 Build the project shell:
 
 ```bash
- $ npm build
+ $ npm run build
 ```
 
 Test the project shell:
 
 ```bash
- $ npm test
+ $ npm run test
 ```
 
 Test the project with coverage result:
 
 ```bash
- $ npm coverage
+ $ npm run coverage
 ```
 
 Generate JavaScript API doc:
 
 ```bash
- $ npm esdoc
+ $ npm run doc
 ```
 
 [npm-image]: https://badge.fury.io/js/amd2cmd.svg
