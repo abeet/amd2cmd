@@ -5,6 +5,7 @@ import StringEditor from './StringEditor';
 const REQUIRE_EXPRESSION_REGEXP = /require[\s\n\r]*\([\s\n\r]*['"](.+?)['"][\s\n\r]*\)/g;
 const TWO_BLANK_START_REGEXP = /^ {2}/gm;
 const TAB_START_REGEXP = /^\t/gm;
+const COMMONJS_KEYWORDS = ['module', 'exports', 'require'];
 
 export default class AMD2CMDTransformer {
   constructor(content, moduleNameTransform) {
@@ -145,6 +146,13 @@ export default class AMD2CMDTransformer {
       return `require('${module.moduleName}');`;
     };
 
-    return `${map(dependencyModules, mapFn).join('\n')}\n`;
+    const result = map(
+      filter(
+        dependencyModules,
+        module => COMMONJS_KEYWORDS.indexOf(module.moduleName) === -1
+      ), mapFn
+    ).join('\n');
+
+    return `${result}\n`;
   }
 }
